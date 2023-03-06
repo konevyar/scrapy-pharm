@@ -9,6 +9,7 @@ from urllib.parse import urljoin
 class PharmSpider(CrawlSpider):
     name = "pharm"
     allowed_domains = ["apteka-ot-sklada.ru"]
+    # Список категорий тваров
     start_urls = [
         "https://apteka-ot-sklada.ru/catalog/sredstva-gigieny/uhod-za-polostyu-rta/zubnye-niti_-ershiki", 
         "https://apteka-ot-sklada.ru/catalog/kontaktnye-linzy-i-ochki/linzy-ezhednevnye",
@@ -34,6 +35,9 @@ class PharmSpider(CrawlSpider):
         timestamp = datetime.datetime.now()
         url = response.url
         title = response.css("h1[class='text text_size_display-1 text_weight_bold'] span[itemprop='name']::text").get()
+        marketing_tags = []
+        if response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get():
+            marketing_tags.append(response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get().strip())
         section = response.xpath("//ul[@class='ui-breadcrumbs__list']/li/a/span/span[@itemprop='name']/text()")[-3:].extract()
         price_original = None if response.css(".goods-offer-panel__cost::text").get() is None else float(re.sub(r'[^\d.]', '', response.css(".goods-offer-panel__cost::text").get()))
         in_stock = False if response.css(".goods-offer-panel__cost::text").get() is None else True
@@ -47,7 +51,7 @@ class PharmSpider(CrawlSpider):
             #"RPC": "",  # {str} Уникальный код товара
             "url": url,  # {str} Ссылка на страницу товара
             "title": title,  # {str} Заголовок/название товара (если в карточке товара указан цвет или объем, необходимо добавить их в title в формате: "{название}, {цвет}")
-            #"marketing_tags": [],  # {list of str} Список тэгов, например: ['Популярный', 'Акция', 'Подарок'], если тэг представлен в виде изображения собирать его не нужно
+            "marketing_tags": marketing_tags,  # {list of str} Список тэгов, например: ['Популярный', 'Акция', 'Подарок'], если тэг представлен в виде изображения собирать его не нужно
             #"brand": "",  # {str} Брэнд товара
             "section": section,  # {list of str} Иерархия разделов, например: ['Игрушки', 'Развивающие и интерактивные игрушки', 'Интерактивные игрушки']
             "price_data": {

@@ -31,21 +31,33 @@ class PharmSpider(CrawlSpider):
             yield scrapy.Request(url, headers=headers)
     
     def parse_item(self, response):
-        # Получение данных
-        timestamp = datetime.datetime.now()
-        url = response.url
-        title = response.css("h1[class='text text_size_display-1 text_weight_bold'] span[itemprop='name']::text").get()
-        marketing_tags = []
-        if response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get():
-            marketing_tags.append(response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get().strip())
-        section = response.xpath("//ul[@class='ui-breadcrumbs__list']/li/a/span/span[@itemprop='name']/text()")[-3:].extract()
-        price_original = None if response.css(".goods-offer-panel__cost::text").get() is None else float(re.sub(r'[^\d.]', '', response.css(".goods-offer-panel__cost::text").get()))
-        in_stock = False if response.css(".goods-offer-panel__cost::text").get() is None else True
-        main_image = urljoin(response.url, response.xpath("//div[@class='goods-gallery__active-picture-area goods-gallery__active-picture-area_gallery_trigger']/img/@src").get())
-        description = None if response.css("div[class='custom-html content-text'] p::text").get() is None else "".join([x.strip() for x in response.css("div[class='custom-html content-text'] p::text").getall()])
-        country_of_origin = response.css("span[itemtype='location']::text").get()
+        # Получение данных c сайта
+        get_timestamp = datetime.datetime.now()
+        get_url = response.url
+        get_title = response.css("h1[class='text text_size_display-1 text_weight_bold'] span[itemprop='name']::text").get()
+        get_description = response.css("div[class='custom-html content-text'] p::text").getall()
+        get_main_image = response.xpath("//div[@class='goods-gallery__active-picture-area goods-gallery__active-picture-area_gallery_trigger']/img/@src").get()
+        get_section = response.xpath("//ul[@class='ui-breadcrumbs__list']/li/a/span/span[@itemprop='name']/text()")[-3:].extract()
+        get_marketing_tags = response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get()
+        get_price_original = response.css(".goods-offer-panel__cost::text").get()
+        get_in_stock = response.css(".goods-offer-panel__cost::text").get()
+        get_country_of_origin = response.css("span[itemtype='location']::text").get()
         
-        # Итоговый словарь
+        # Проверка и форматирование полученных данных
+        timestamp = get_timestamp
+        url = get_url
+        title = get_title
+        marketing_tags = []
+        if get_marketing_tags:
+            marketing_tags.append(get_marketing_tags.strip())
+        section = get_section
+        price_original = None if get_price_original is None else float(re.sub(r'[^\d.]', '', get_price_original))
+        in_stock = False if get_in_stock is None else True
+        main_image = urljoin(response.url, get_main_image)
+        description = None if get_description is None else "".join([x.strip() for x in get_description])
+        country_of_origin = get_country_of_origin
+        
+        # Внесение данных в итоговый словарь
         yield {
             "timestamp": timestamp,  # Текущее время в формате timestamp
             #"RPC": "",  # {str} Уникальный код товара

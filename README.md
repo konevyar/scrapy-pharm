@@ -91,16 +91,16 @@ source venv/Scripts/activate
 source venv/bin/activate
 ```
 
-4. Установить заивисимости: ####
+4. Установить заивисимости:
 ```
 pip install -r requirements.txt
 ```
 
-5. Запустить парсер из директории проекта: ####
+5. Запустить парсер из директории проекта:
 ```
 scrapy crawl pharm -o result.json
 ```
 
 ## Технологии ##
-Python 3.10
-Scrapy 2.8.0
+- Python 3.10
+- Scrapy 2.8.0

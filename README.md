@@ -67,25 +67,39 @@
 ## Установка и запуск ##
 
 1. Клонировать репозиторий:
-    git clone https://github.com/konevyar/scrapy-pharm.git
+```
+git clone https://github.com/konevyar/scrapy-pharm.git
+```
 
 2. Перейти в директорию проекта:
-    cd TomskPharmacy
+```
+cd TomskPharmacy
+```
 
 3. Создать и активировать виртуальную среду:
-    python -m venv venv
+```
+python -m venv venv
+```
 
 Активация в Windows
-    source venv/Scripts/activate
+```
+source venv/Scripts/activate
+```
 
 Активация в Mac/Linux
-    source venv/bin/activate
+```
+source venv/bin/activate
+```
 
 4. Установить заивисимости: ####
-    pip install -r requirements.txt
+```
+pip install -r requirements.txt
+```
 
 5. Запустить парсер из директории проекта: ####
-    scrapy crawl pharm -o result.json
+```
+scrapy crawl pharm -o result.json
+```
 
 ## Технологии ##
 Python 3.10

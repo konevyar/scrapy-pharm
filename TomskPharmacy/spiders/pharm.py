@@ -38,7 +38,7 @@ class PharmSpider(CrawlSpider):
         get_description = response.css("div[class='custom-html content-text'] p::text").getall()
         get_main_image = response.xpath("//div[@class='goods-gallery__active-picture-area goods-gallery__active-picture-area_gallery_trigger']/img/@src").get()
         get_section = response.xpath("//ul[@class='ui-breadcrumbs__list']/li/a/span/span[@itemprop='name']/text()")[-3:].extract()
-        get_marketing_tags = response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").get()
+        get_marketing_tags = response.css(".ui-tag.text.text_weight_medium.ui-tag_theme_secondary::text").getall()
         get_price_original = response.css(".goods-offer-panel__cost::text").get()
         get_in_stock = response.css(".goods-offer-panel__cost::text").get()
         get_country_of_origin = response.css("span[itemtype='location']::text").get()
@@ -47,9 +47,7 @@ class PharmSpider(CrawlSpider):
         timestamp = get_timestamp
         url = get_url
         title = get_title
-        marketing_tags = []
-        if get_marketing_tags:
-            marketing_tags.append(get_marketing_tags.strip())
+        marketing_tags = None if get_marketing_tags is None else [tag.strip() for tag in get_marketing_tags]
         section = get_section
         price_original = None if get_price_original is None else float(re.sub(r'[^\d.]', '', get_price_original))
         in_stock = False if get_in_stock is None else True

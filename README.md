@@ -1,4 +1,4 @@
-## Тестовое задание 
+## Тестовое задание для Brandquad
 
 <details>
     <summary>Текст задания</summary>
@@ -66,25 +66,25 @@
 
 ## Установка и запуск ##
 
-#### 1. Клонировать репозиторий: ####
+1. Клонировать репозиторий:
     git clone https://github.com/konevyar/scrapy-pharm.git
 
-#### 2. Перейти в директорию проекта: ####
+2. Перейти в директорию проекта:
     cd TomskPharmacy
 
-#### 3. Создать и активировать виртуальную среду: ####
+3. Создать и активировать виртуальную среду:
     python -m venv venv
 
-###### Windows
+Активация в Windows
     source venv/Scripts/activate
 
-###### Mac/Linux
+Активация в Mac/Linux
     source venv/bin/activate
 
-#### 4. Установить заивисимости: ####
+4. Установить заивисимости: ####
     pip install -r requirements.txt
 
-#### 5. Запустить парсер из директории проекта: ####
+5. Запустить парсер из директории проекта: ####
     scrapy crawl pharm -o result.json
 
 ## Технологии ##

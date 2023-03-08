@@ -102,5 +102,5 @@ scrapy crawl pharm -o result.json
 ```
 
 ## Технологии ##
-Python 3.10
-Scrapy 2.8.0
+- Python 3.10
+- Scrapy 2.8.0
